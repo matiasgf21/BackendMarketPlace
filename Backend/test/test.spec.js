@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../index");
+const app = require("../index.js");
 
 describe("Pruebas API REST - Marketplace de Tecnología", () => {
   test("GET /productos → 200 y retorna un arreglo", async () => {
@@ -15,14 +15,20 @@ describe("Pruebas API REST - Marketplace de Tecnología", () => {
   });
 
   test("POST /productos → 201 al crear un producto válido", async () => {
-    const nuevoProducto = { id: 2, nombre: "Smartphone Samsung S25", precio: 899 };
+    const nuevoProducto = {
+      id: 2,
+      nombre: "Smartphone Samsung S25",
+      precio: 899,
+    };
     const res = await request(app).post("/productos").send(nuevoProducto);
     expect(res.statusCode).toBe(201);
     expect(res.body).toMatchObject(nuevoProducto);
   });
 
   test("POST /productos → 400 si faltan datos", async () => {
-    const res = await request(app).post("/productos").send({ nombre: "Mouse Logitech" });
+    const res = await request(app)
+      .post("/productos")
+      .send({ nombre: "Mouse Logitech" });
     expect(res.statusCode).toBe(400);
   });
 

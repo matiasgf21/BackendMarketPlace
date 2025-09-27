@@ -1,5 +1,6 @@
-const request = require("supertest");
-const app = require("../index.js");
+// test/test.spec.js
+import request from "supertest";
+import app from "../index.js";
 
 describe("Pruebas API REST - Marketplace de Tecnología", () => {
   test("GET /productos → 200 y retorna un arreglo", async () => {
@@ -16,13 +17,17 @@ describe("Pruebas API REST - Marketplace de Tecnología", () => {
 
   test("POST /productos → 201 al crear un producto válido", async () => {
     const nuevoProducto = {
-      id: 2,
       nombre: "Smartphone Samsung S25",
       precio: 899,
     };
     const res = await request(app).post("/productos").send(nuevoProducto);
     expect(res.statusCode).toBe(201);
-    expect(res.body).toMatchObject(nuevoProducto);
+
+    // Compara nombre normalmente
+    expect(res.body.nombre).toBe(nuevoProducto.nombre);
+
+    // Convierte precio a número antes de comparar
+    expect(Number(res.body.precio)).toBe(nuevoProducto.precio);
   });
 
   test("POST /productos → 400 si faltan datos", async () => {

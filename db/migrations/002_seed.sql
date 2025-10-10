@@ -1,5 +1,5 @@
 -- Puedes generar hashes con bcryptjs o desde Node.
-INSERT INTO users (name, email, password_hash, role) VALUES
+INSERT INTO users (username, email, password, role) VALUES
   ('Alice', 'alice@example.com', '$2a$10$Wzjz1rUo7c1FJdNf2G1sZ.0v3n5H0b7oU7ZK4nLwXz9xkWv8pYcU2', 'user'),
   ('Bob',   'bob@example.com',   '$2a$10$Wzjz1rUo7c1FJdNf2G1sZ.0v3n5H0b7oU7ZK4nLwXz9xkWv8pYcU2', 'user'),
   ('Admin', 'admin@example.com', '$2a$10$Wzjz1rUo7c1FJdNf2G1sZ.0v3n5H0b7oU7ZK4nLwXz9xkWv8pYcU2', 'admin');

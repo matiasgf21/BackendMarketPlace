@@ -1,4 +1,3 @@
-// index.js
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -9,6 +8,23 @@ if (!process.env.JWT_SECRET || !process.env.JWT_SECRET.trim()) {
 
 import express from "express";
 import cors from "cors";
+import pkg from "pg";
+const { Pool } = pkg;
+
+// ✅ Create a PostgreSQL connection using your .env DB_ variables
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: process.env.DB_PORT,
+  ssl: { rejectUnauthorized: false } // ✅ required for Render PostgreSQL
+});
+
+// ✅ Test the connection
+pool.query("SELECT NOW()")
+  .then(() => console.log("✅ Connected to PostgreSQL"))
+  .catch(err => console.error("❌ Database connection failed:", err));
 
 import authRoutes from "./routes/auth.routes.js";
 import protectedRoutes from "./routes/protected.routes.js";
@@ -19,7 +35,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Backend Market Place ✅ (modo local sin BD)");
+  res.send("Backend Market Place ✅ conectado a PostgreSQL");
 });
 
 app.use("/api/auth", authRoutes);
@@ -28,7 +44,6 @@ app.use("/productos", productosRoutes);
 
 app.set("json spaces", 2);
 
-// ⚡ Solo arrancar el servidor si NO estamos en testing
 const PORT = process.env.PORT || 9090;
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
@@ -36,5 +51,5 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-// 👉 Exportar app para Supertest
 export default app;
+export { pool };

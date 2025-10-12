@@ -8,7 +8,7 @@ const router = Router();
 router.get("/", async (_req, res) => {
   try {
     const { rows } = await pool.query(
-      "SELECT id, nombre AS title, precio AS price, image_url FROM products"
+      "SELECT id, title AS nombre, price AS precio, image_url FROM products"
     );
     res.json(rows);
   } catch (e) {
@@ -20,7 +20,7 @@ router.get("/", async (_req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { rows } = await pool.query(
-      "SELECT id, nombre AS title, precio AS price, image_url FROM products WHERE id = $1",
+      "SELECT id, title AS nombre, price AS precio, image_url FROM products WHERE id = $1",
       [req.params.id]
     );
 

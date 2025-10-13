@@ -8,8 +8,8 @@ const router = Router();
 router.get("/", async (_req, res) => {
   try {
     const { rows } = await pool.query(
-      "SELECT id, title AS nombre, price AS precio, image_url FROM products"
-    );
+  "SELECT id, title AS nombre, price AS precio, image_url, category FROM products"
+);
     res.json(rows);
   } catch (e) {
     console.error("GET /productos error:", e);
@@ -19,10 +19,10 @@ router.get("/", async (_req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const { rows } = await pool.query(
-      "SELECT id, title AS nombre, price AS precio, image_url FROM products WHERE id = $1",
-      [req.params.id]
-    );
+   const { rows } = await pool.query(
+  "SELECT id, title AS nombre, price AS precio, image_url, category FROM products WHERE id = $1",
+  [req.params.id]
+);
 
     if (!rows[0]) {
       return res.status(404).json({ message: "Producto no encontrado" });
